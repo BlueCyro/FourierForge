@@ -7,11 +7,11 @@ settings for the FFT analysis, such as the desired window size, the number of ba
 
 ## Installation
 
-Simply go to the releases page, download the latest DLL, and place it in the `nml_mods` folder in your Neos installation directory.
+Simply go to the [releases](https://github.com/RileyGuy/FourierForge/releases) page, download the latest DLL, and place it in the `nml_mods` folder in your Neos installation directory.
 
 ## Usage
 
-If you're not a developer, you can skip this section and just drop your FFT stream into a pre-made visualizer of your choice. In fact, you can use an example I've made myself by copying the following link into your neos window and saving the public folder:
+If you're not a developer, you can skip the next section and just drop your FFT stream into a pre-made visualizer of your choice. In fact, you can use an example I've made myself by copying the following link into your neos window and saving the public folder:
 
 `neosrec:///U-Cyro/R-83292499-ad47-4422-9c6b-6419ddbf5276`
 
