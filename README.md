@@ -1,5 +1,7 @@
 # Fourier Forge
 
+![ezgif-3-4db0f4f6ef](https://user-images.githubusercontent.com/9770110/193400034-b6215861-1775-4298-9100-cf3e58cafe97.gif)
+
 Fourier Forge is a mod for NeosVR that lets you perform live FFT analysis on audio streams and exposes the results as a set of dynamic variables you can interface with. It also exposes
 settings for the FFT analysis, such as the desired window size, the number of bands, and much more.
 
@@ -44,6 +46,7 @@ The following is a more verbose description of each setting in the order they ap
 
 
 ### In-game usage
+
 
 By default each audio stream does not have a variable space, but contains dynamic variables. Once you've placed the stream in a dynamic vriable space you can then access the FFT values by using dynamic references (e.g. DynamicReferenceVariable or DynamicReferenceVariableDriver) with the type ``IField`1[System.Single]`` and the variable naming scheme of 'StreamFFTValue(number)' (ex: 'StreamFFTValue27')
 
