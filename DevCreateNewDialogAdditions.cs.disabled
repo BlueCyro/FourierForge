@@ -1,0 +1,64 @@
+using FrooxEngine;
+using BaseX;
+
+namespace FourierForge;
+public static class CreateNewFormItems
+{
+    public static void AddNewItems()
+    {
+        DevCreateNewForm.AddAction("Extra Utilities", "Create float3 stream", s => {
+            var stream = s.LocalUser.GetStreamOrAdd<ValueStream<float3>>($"{s.LocalUser.Name}.CustomFloat3Stream", stream => {
+                stream.SetInterpolation();
+                stream.SetUpdatePeriod(1, 0);
+                Sync<float>? Sync = (Sync<float>)stream.GetSyncMember("InterpolationOffset");
+                FourierForge.Msg("Setting InterpolationOffset value");
+                Sync.Value = 0.25f;
+            });
+            var streamHolder = s.AttachComponent<ReferenceField<ValueStream<float3>>>();
+            streamHolder.Reference.Target = stream;
+
+            var driver = s.AttachComponent<ValueDriver<float3>>();
+            driver.ValueSource.Target = stream;
+            driver.DriveTarget.Target = s.AttachComponent<ValueField<float3>>().Value;
+
+            s.DestroyWhenDestroyed(stream);
+            InspectorHelper.OpenInspectorForTarget(s);
+        });
+
+        DevCreateNewForm.AddAction("Extra Utilities", "Create float stream", s => {
+            var stream = s.LocalUser.GetStreamOrAdd<ValueStream<float>>($"{s.LocalUser.Name}.CustomFloatStream", stream => {
+                stream.SetInterpolation();
+                stream.SetUpdatePeriod(1, 0);
+                Sync<float>? Sync = (Sync<float>)stream.GetSyncMember("InterpolationOffset");
+                FourierForge.Msg("Setting InterpolationOffset value");
+                Sync.Value = 0.25f;
+            });
+            var streamHolder = s.AttachComponent<ReferenceField<ValueStream<float>>>();
+            streamHolder.Reference.Target = stream;
+
+            var driver = s.AttachComponent<ValueDriver<float>>();
+            driver.ValueSource.Target = stream;
+            driver.DriveTarget.Target = s.AttachComponent<ValueField<float>>().Value;
+
+            s.DestroyWhenDestroyed(stream);
+            InspectorHelper.OpenInspectorForTarget(s);
+        });
+
+        DevCreateNewForm.AddAction("Extra Utilities", "Create float4x4 stream", s => {
+            var stream = s.LocalUser.GetStreamOrAdd<ValueStream<float4x4>>($"{s.LocalUser.Name}.CustomFloat4x4Stream", stream => {
+                stream.SetInterpolation();
+                stream.SetUpdatePeriod(1, 0);
+            });
+            var streamHolder = s.AttachComponent<ReferenceField<ValueStream<float4x4>>>();
+            streamHolder.Reference.Target = stream;
+
+            var driver = s.AttachComponent<ValueDriver<float4x4>>();
+            driver.ValueSource.Target = stream;
+            driver.DriveTarget.Target = s.AttachComponent<ValueField<float4x4>>().Value;
+
+            DestroyProxy destroyStream = s.AttachComponent<DestroyProxy>();
+            destroyStream.DestroyTarget.Target = stream;
+            InspectorHelper.OpenInspectorForTarget(s);
+        });
+    }
+}

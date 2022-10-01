@@ -1,0 +1,7 @@
+0: Sub-bass         20 to 60 Hz
+1: Bass             60 to 250 Hz
+2: Low midrange	    250 to 500 Hz
+3: Midrange	        500 Hz to 2 kHz
+4: Upper midrange	2 to 4 kHz
+5: Presence	        4 to 6 kHz
+6: Brilliance	    6 to 20 kHz
