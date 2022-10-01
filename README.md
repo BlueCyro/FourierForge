@@ -9,6 +9,10 @@ Simply go to the releases page, download the latest DLL, and place it in the `nm
 
 ## Usage
 
+If you're not a developer, you can skip this section and just drop your FFT stream into a pre-made visualizer of your choice. In fact, you can use an example I've made myself by copying the following link into your neos window and saving the public folder:
+
+`neosrec:///U-Cyro/R-83292499-ad47-4422-9c6b-6419ddbf5276`
+
 The default settings should work fine for most use cases, but you can change them in-game by opening the [NeosModSettings](https://github.com/badhaloninja/NeosModSettings) tab in your dash and navigating to the "Fourier Forge" tab. If you don't care about these and just want to use the mod, you can skip this section, but I would highly recommend reading this anyways.
 
 ### Setting descriptions
@@ -30,7 +34,7 @@ The following is a more verbose description of each setting in the order they ap
 
 - **Interpolation Factor**: This setting will control how much the FFT results are interpolated. By default this is set to 0.15, which should be fine for the majority of use cases. If people find that the FFT results are too choppy for them, you can increase this value to 0.2 or 0.25 to help, but you may introduce desync if you go too far.
 
-- **Stream update rate**: This controls how often the FFT streams are updated. By default this is set to 0, which means that you need the `Force Update` setting to be true in order for the streams to update. If you want to save on bandwidth, you can turn off `Force Update`, and set this value to 1 or 2, though this may introduce desync and/or stream chop.
+- **Stream update rate**: This controls how often the FFT streams are updated. By default this is set to 0, which means that you need the `Force Update` setting to be true in order for the streams to update. If you want to save on bandwidth, you can turn off `Force Update`, and set this value to 1 or 2, though this may introduce desync.
 
 - **Force Update**: This setting controls whether or not the FFT streams should update every frame. By default this is set to true. Setting this to false means you need to set the `Stream Update Rate` to a value greater than 0 in order for the streams to update.
 
@@ -39,14 +43,11 @@ The following is a more verbose description of each setting in the order they ap
 
 ### In-game usage
 
-If you're not a developer, you can skip this section and just drop your FFT stream into a pre-made visualizer of your choice. In fact, you can use an example I've made myself by copying [this link](neosrec:///U-Cyro/R-83292499-ad47-4422-9c6b-6419ddbf5276) into your neos window and saving the public folder.
-
-
-Continuing however, by default each audio stream does not have a variable space, but contains dynamic variables. Once you've placed the stream in a dynamic vriable space you can then access the FFT values by using dynamic references (e.g. `DynamicReferenceVariable` or `DynamicReferenceVariableDriver`) with the type ``IField`1[System.Single]`` and the variable naming scheme of `StreamFFTValue(number)` (ex: `StreamFFTValue27`)
+By default each audio stream does not have a variable space, but contains dynamic variables. Once you've placed the stream in a dynamic vriable space you can then access the FFT values by using dynamic references (e.g. `DynamicReferenceVariable` or `DynamicReferenceVariableDriver`) with the type ``IField`1[System.Single]`` and the variable naming scheme of `StreamFFTValue(number)` (ex: `StreamFFTValue27`)
 
 The reason these are IFields and not raw values is because syncing so many values through a dynamic variable space is very taxing, and this helps alleviate a lot of the overhead. If you're looking to drive a field based on one of these values. You can use a `DynamicReferenceVariableDriver` and point it at the source of a `ValueCopy` to drive a value with it.
 
-To access band monitors (for more simplified visualizations), you can use more conventional dynamic references of just a float with the naming scheme of `FFTBand(number)` (ex: `FFTBand0` for sub-bass values). A reference for the indices of each band can be found [here](FileLink.txt).
+To access band monitors (for more simplified visualizations), you can use more conventional dynamic references of just a float with the naming scheme of `FFTBand(number)` (ex: `FFTBand0` for sub-bass values). A reference for the indices of each band can be found [here](BandMonitorReference.txt).
 
 Auxiliary information about the FFT stream can be accessed through the following dynamic variables:
 
