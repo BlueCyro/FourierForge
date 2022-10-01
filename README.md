@@ -22,28 +22,19 @@ The default settings should work fine for most use cases, but you can change the
 ### Setting descriptions
 The following is a more verbose description of each setting in the order they appear in the settings tab.
 
-- **Enabled**: Controls whether or not the functionality of the mod is enabled.
-
-- **Window Size**: The size of the window used for the FFT analysis. You can think of this as the resolution of the FFT. The higher the value, the more granular the analysis will be, but the slower the FFT will respond to changes in the audio stream. This is due to the fact that the number of samples used for the FFT increases as the window size increases. When you're streaming audio, you're only getting about 400-900 samples per frame, so it takes a while for the buffer to fill up. The default value of 4096 should give you a pretty high resolution, but if you need something more responsive, you should try lowering this value.
-
-- **Truncation Factor**: This is a value that is used to truncate the FFT results. By default this setting is set to 256, which means that the FFT results will be cut down to the first 256 values of the FFT result. Increasing this value may significantly decrease performance due to the sheer amount of data that exists in high resolution FFT results.
-
-- **Window function**: This is the window function used for the FFT analysis. The default value is "Hann", which is a good all-around window function. If you're not sure what this is, you can leave it as-is. If you want to learn more about window functions, you can read more about them [here](https://en.wikipedia.org/wiki/Window_function).
-
-- **Audio Stream Type**: This setting controls what best to tailor the audio stream for. By default this is set to 'RestrictedLowDelay' to reduce the amount delay between the audio stream and the FFT results. **Note**: This setting OVERRIDES the Neos' default audio stream type of 'Audio'. If you notice people complaining that your stream is choppy, you can change this setting back to Audio to help, but this *may* introduce desync between the audio stream and the FFT results.
-
-- **Stream Encoding Type**: This controls what type of encoding to use. By default this is set to 'Quantized', which reduces the bit depth of the streamed values considerably, but still keeps enough data to be useful for visualizations and the like. If you and the parties connected to the session have unlimited amounts of bandwidth, you can change this to 'Full' but I highly recommend leaving this alone unless you positively need the extra resolution.
-
-- **Stream bit depth**: This controls the bit depth of the streamed values. By default this is set to 10, which is a good balance between resolution and bandwidth usage. If you find that the values are stair-stepping too much, you can increase this value to 11 or 12 if you have the extra bandwidth to spare.
-
-- **Interpolation Factor**: This setting will control how much the FFT results are interpolated. By default this is set to 0.15, which should be fine for the majority of use cases. If people find that the FFT results are too choppy for them, you can increase this value to 0.2 or 0.25 to help, but you may introduce desync if you go too far.
-
-- **Stream update rate**: This controls how often the FFT streams are updated. By default this is set to 0, which means that you need the 'Force Update' setting to be true in order for the streams to update. If you want to save on bandwidth, you can turn off Force Update, and set this value to 1 or 2, though this may introduce desync.
-
-- **Force Update**: This setting controls whether or not the FFT streams should update every frame. By default this is set to true. Setting this to false means you need to set the 'Stream Update Rate' to a value greater than 0 in order for the streams to update.
-
-- **Band Monitors Only**: This setting controls whether or not to solely update the band monitors. By default this is set to false. Setting this to true will disable the FFT stream updates, and only update the band monitors. This is useful if you want to use the band monitors for visualizations (such as bass kicks, or mid-range frequencies), but don't need the full FFT stream.
-
+| Setting | Description |
+| --- | --- |
+| Enabled | Controls whether or not the functionality of the mod is enabled. |
+| Window Size | The size of the window used for the FFT analysis. You can think of this as the resolution of the FFT. The higher the value, the more granular the analysis will be, but the slower the FFT will respond to changes in the audio stream. This is due to the fact that the number of samples used for the FFT increases as the window size increases. When you're streaming audio, you're only getting about 400-900 samples per frame, so it takes a while for the buffer to fill up. The default value of 4096 should give you a pretty high resolution, but if you need something more responsive, you should try lowering this value. |
+| Truncation Factor | This is a value that is used to truncate the FFT results. By default this setting is set to 256, which means that the FFT results will be cut down to the first 256 values of the FFT result. Increasing this value may significantly decrease performance due to the sheer amount of data that exists in high resolution FFT results. |
+| Window function | This is the window function used for the FFT analysis. The default value is "Hann", which is a good all-around window function. If you're not sure what this is, you can leave it as-is. If you want to learn more about window functions, you can read more about them [here](https://en.wikipedia.org/wiki/Window_function). |
+| Audio Stream Type | This setting controls what best to tailor the audio stream for. By default this is set to 'RestrictedLowDelay' to reduce the amount delay between the audio stream and the FFT results. **Note**: This setting OVERRIDES the Neos' default audio stream type of 'Audio'. If you notice people complaining that your stream is choppy, you can change this setting back to Audio to help, but this *may* introduce desync between the audio stream and the FFT results. |
+| Stream Encoding Type | This controls what type of encoding to use. By default this is set to 'Quantized', which reduces the bit depth of the streamed values considerably, but still keeps enough data to be useful for visualizations and the like. If you and the parties connected to the session have unlimited amounts of bandwidth, you can change this to 'Full' but I highly recommend leaving this alone unless you positively need the extra resolution. |
+| Stream bit depth | This controls the bit depth of the streamed values. By default this is set to 10, which is a good balance between resolution and bandwidth usage. If you find that the values are stair-stepping too much, you can increase this value to 11 or 12 if you have the extra bandwidth to spare. |
+| Interpolation Factor | This setting will control how much the FFT results are interpolated. By default this is set to 0.15, which should be fine for the majority of use cases. If people find that the FFT results are too choppy for them, you can increase this value to 0.2 or 0.25 to help, but you may introduce desync if you go too far. |
+| Stream update rate | This controls how often the FFT streams are updated. By default this is set to 0, which means that you need the 'Force Update' setting to be true in order for the streams to update. If you want to save on bandwidth, you can turn off Force Update, and set this value to 1 or 2, though this may introduce desync. |
+| Force Update | This setting controls whether or not the FFT streams should update every frame. By default this is set to true. Setting this to false means you need to set the 'Stream Update Rate' to a value greater than 0 in order for the streams to update. |
+| Band Monitors Only | This setting controls whether or not to solely update the band monitors. By default this is set to false. Setting this to true will disable the FFT stream updates, and only update the band monitors. This is useful if you want to use the band monitors for visualizations (such as bass kicks, or mid-range frequencies), but don't need the full FFT stream. |
 
 ### In-game usage
 
