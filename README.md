@@ -15,7 +15,8 @@ If you're not a developer, you can skip this section and just drop your FFT stre
 
 The default settings should work fine for most use cases, but you can change them in-game by opening the [NeosModSettings](https://github.com/badhaloninja/NeosModSettings) tab in your dash and navigating to the "Fourier Forge" tab. If you don't care about these and just want to use the mod, you can skip this section, but I would highly recommend reading this anyways.
 
-**Do note that this mod changes a setting on your audio stream, see the "Audio Stream Type" bullet below for more information.**
+**Do note that this mod changes a setting on your audio stream, see the "Audio Stream Type" bullet below for more information!**
+
 ### Setting descriptions
 The following is a more verbose description of each setting in the order they appear in the settings tab.
 
