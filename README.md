@@ -2,7 +2,7 @@
 
 ![ezgif-3-4db0f4f6ef](https://user-images.githubusercontent.com/9770110/193400034-b6215861-1775-4298-9100-cf3e58cafe97.gif)
 
-Fourier Forge is a mod for NeosVR that lets you perform live FFT analysis on audio streams and exposes the results as a set of dynamic variables you can interface with. It also exposes
+Fourier Forge is a mod for NeosVR that lets you perform live, **Realtime** FFT analysis on audio streams and exposes the results as a set of dynamic variables you can interface with. It also exposes
 settings for the FFT analysis, such as the desired window size, the number of bands, and much more.
 
 ## Installation
