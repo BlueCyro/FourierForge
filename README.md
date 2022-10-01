@@ -26,28 +26,28 @@ The following is a more verbose description of each setting in the order they ap
 
 - **Window function**: This is the window function used for the FFT analysis. The default value is "Hann", which is a good all-around window function. If you're not sure what this is, you can leave it as-is. If you want to learn more about window functions, you can read more about them [here](https://en.wikipedia.org/wiki/Window_function).
 
-- **Audio Stream Type**: This setting controls what best to tailer the audio stream for. By default this is set to `RestrictedLowDelay` to reduce the amount delay between the audio stream and the FFT results. **Note**: This setting OVERRIDES the Neos' default audio stream type of `Audio`. If you notice people complaining that your stream is choppy, you can change this setting back to `Audio` to help, but this *may* introduce desync between the audio stream and the FFT results.
+- **Audio Stream Type**: This setting controls what best to tailer the audio stream for. By default this is set to 'RestrictedLowDelay' to reduce the amount delay between the audio stream and the FFT results. **Note**: This setting OVERRIDES the Neos' default audio stream type of 'Audio'. If you notice people complaining that your stream is choppy, you can change this setting back to Audio to help, but this *may* introduce desync between the audio stream and the FFT results.
 
-- **Stream Encoding Type**: This controls what type of encoding to use. By default this is set to `Quantized`, which reduces the bit depth of the streamed values considerably, but still keeps enough data to be useful for visualizations and the like. If you and the parties connected to the session have unlimited amounts of bandwidth, you can change this to `Full` but I highly recommend leaving this alone unless you positively need the extra resolution.
+- **Stream Encoding Type**: This controls what type of encoding to use. By default this is set to 'Quantized', which reduces the bit depth of the streamed values considerably, but still keeps enough data to be useful for visualizations and the like. If you and the parties connected to the session have unlimited amounts of bandwidth, you can change this to 'Full' but I highly recommend leaving this alone unless you positively need the extra resolution.
 
 - **Stream bit depth**: This controls the bit depth of the streamed values. By default this is set to 10, which is a good balance between resolution and bandwidth usage. If you find that the values are stair-stepping too much, you can increase this value to 11 or 12 if you have the extra bandwidth to spare.
 
 - **Interpolation Factor**: This setting will control how much the FFT results are interpolated. By default this is set to 0.15, which should be fine for the majority of use cases. If people find that the FFT results are too choppy for them, you can increase this value to 0.2 or 0.25 to help, but you may introduce desync if you go too far.
 
-- **Stream update rate**: This controls how often the FFT streams are updated. By default this is set to 0, which means that you need the `Force Update` setting to be true in order for the streams to update. If you want to save on bandwidth, you can turn off `Force Update`, and set this value to 1 or 2, though this may introduce desync.
+- **Stream update rate**: This controls how often the FFT streams are updated. By default this is set to 0, which means that you need the 'Force Update' setting to be true in order for the streams to update. If you want to save on bandwidth, you can turn off Force Update, and set this value to 1 or 2, though this may introduce desync.
 
-- **Force Update**: This setting controls whether or not the FFT streams should update every frame. By default this is set to true. Setting this to false means you need to set the `Stream Update Rate` to a value greater than 0 in order for the streams to update.
+- **Force Update**: This setting controls whether or not the FFT streams should update every frame. By default this is set to true. Setting this to false means you need to set the 'Stream Update Rate' to a value greater than 0 in order for the streams to update.
 
 - **Band Monitors Only**: This setting controls whether or not to solely update the band monitors. By default this is set to false. Setting this to true will disable the FFT stream updates, and only update the band monitors. This is useful if you want to use the band monitors for visualizations (such as bass kicks, or mid-range frequencies), but don't need the full FFT stream.
 
 
 ### In-game usage
 
-By default each audio stream does not have a variable space, but contains dynamic variables. Once you've placed the stream in a dynamic vriable space you can then access the FFT values by using dynamic references (e.g. `DynamicReferenceVariable` or `DynamicReferenceVariableDriver`) with the type ``IField`1[System.Single]`` and the variable naming scheme of `StreamFFTValue(number)` (ex: `StreamFFTValue27`)
+By default each audio stream does not have a variable space, but contains dynamic variables. Once you've placed the stream in a dynamic vriable space you can then access the FFT values by using dynamic references (e.g. DynamicReferenceVariable or DynamicReferenceVariableDriver) with the type ``IField`1[System.Single]`` and the variable naming scheme of 'StreamFFTValue(number)' (ex: 'StreamFFTValue27')
 
-The reason these are IFields and not raw values is because syncing so many values through a dynamic variable space is very taxing, and this helps alleviate a lot of the overhead. If you're looking to drive a field based on one of these values. You can use a `DynamicReferenceVariableDriver` and point it at the source of a `ValueCopy` to drive a value with it.
+The reason these are IFields and not raw values is because syncing so many values through a dynamic variable space is very taxing, and this helps alleviate a lot of the overhead. If you're looking to drive a field based on one of these values. You can use a DynamicReferenceVariableDriver and point it at the source of a ValueCopy to drive a value with it.
 
-To access band monitors (for more simplified visualizations), you can use more conventional dynamic references of just a float with the naming scheme of `FFTBand(number)` (ex: `FFTBand0` for sub-bass values). A reference for the indices of each band can be found [here](BandMonitorReference.txt).
+To access band monitors (for more simplified visualizations), you can use more conventional dynamic references of just a float with the naming scheme of 'FFTBand(number)' (ex: 'FFTBand0' for sub-bass values). A reference for the indices of each band can be found [here](BandMonitorReference.txt).
 
 Auxiliary information about the FFT stream can be accessed through the following dynamic variables:
 
@@ -57,9 +57,9 @@ Auxiliary information about the FFT stream can be accessed through the following
 
 ## Tips
 
-- For visualizations, I recommend applying a multiplier to each FFT value with `(FFTIndex + 2) * log10(value) * 10000` to get a more visually appealing result. Different bin sizes may vary.
+- For visualizations, I recommend applying a multiplier to each FFT value with: (FFTIndex + 2) * log10(value) * 10000 to get a more visually appealing result. Different window sizes may vary.
 
-- You can convert each FFT value into decibels by doing `20 * log10(value)` or `10 * log10(energy)`, this also applies to the band monitors.
+- You can convert each FFT value into decibels by the formula: 20 * log10(value) or 10 * log10(energy), this also applies to the band monitors.
 
 - You can convert the FFT values into energy by squaring them.
 
