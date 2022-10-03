@@ -13,7 +13,7 @@ public partial class FourierForge : NeosMod
     public override string Author => "Cyro";
     public override string Name => "FourierForge";
     public override string Version => VersionString;
-    public static readonly string VersionString = "1.0.2";
+    public static readonly string VersionString = "1.0.3";
     public override void OnEngineInit()
     {
         Config = GetConfiguration();
