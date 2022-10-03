@@ -29,23 +29,24 @@ public partial class FourierForge : NeosMod
     [AutoRegisterConfigKey]
     public static ModConfigurationKey<OpusApplicationType> AudioStreamAppType = new ModConfigurationKey<OpusApplicationType>("Stream application type", "Control what best to tailor the audio stream for. RestrictedLowDelay may help with FFT/Audio syncing issues.", () => OpusApplicationType.RestrictedLowDelay);
     
+    /*
     [AutoRegisterConfigKey]
     public static ModConfigurationKey<StreamEncodingWrapper> ValueEncoding = new ModConfigurationKey<StreamEncodingWrapper>("Value Encoding Type", "Controls what type of encoding to use (only change if you don't care about anyone's bandwidth, you heathen)", () => StreamEncodingWrapper.Quantized);
-    
+    */
     [AutoRegisterConfigKey]
-    public static ModConfigurationKey<byte> FullFrameBits = new ModConfigurationKey<byte>("Full frame bit depth", "Controls how many bits are used for encoding streams when quantized (higher values increase network bandwidth, but may reduce stepping on FFT values)", () => 10);
+    public static ModConfigurationKey<byte> FullFrameBits = new ModConfigurationKey<byte>("Full frame bit depth", "How many bits are used for each stream, high values reduce stepping on FFT values, but don't go over 11 or 12 unless you absolutely must!!", () => 10);
 
     [AutoRegisterConfigKey]
     public static ModConfigurationKey<float> InterpolationOffset = new ModConfigurationKey<float>("Interpolation offset amount", "Controls how interpolated the streams are (higher values may cause desync)", () => 0.15f);
 
     [AutoRegisterConfigKey]
-    public static ModConfigurationKey<uint> UpdatePeriod = new ModConfigurationKey<uint>("Update period", "Higher values make the streams update slower, controls how often they update (has no effect if force update is true)", () => 0);
+    public static ModConfigurationKey<uint> UpdatePeriod = new ModConfigurationKey<uint>("Update period", "Higher values make the streams update slower, 1 is full-speed, 2 is half, etc. (has no effect if force update is true)", () => 0);
 
     [AutoRegisterConfigKey]
-    public static ModConfigurationKey<bool> ForceUpdateStreams = new ModConfigurationKey<bool>("Force update streams", "Controls whether or not to force update streams", () => true);
+    public static ModConfigurationKey<bool> ForceUpdateStreams = new ModConfigurationKey<bool>("Force update streams", "Controls whether or not to force update streams, this makes them update each frame", () => true);
 
     [AutoRegisterConfigKey]
-    public static ModConfigurationKey<bool> OnlyApplyBandMonitors = new ModConfigurationKey<bool>("Only apply to Band Monitors", "When enabled, will only apply the band monitors (this helps if you don't need the full FFT)", () => false);
+    public static ModConfigurationKey<bool> OnlyApplyBandMonitors = new ModConfigurationKey<bool>("Only apply to Band Monitors", "When enabled, will skip the full FFT and only apply the band monitors (this helps if you don't need the full FFT)", () => false);
     
     public static ModConfiguration? Config;
 }

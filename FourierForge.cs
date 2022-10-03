@@ -17,7 +17,7 @@ public partial class FourierForge : NeosMod
     {
         Config = GetConfiguration();
         Config!.Save(true);
-        Harmony harmony = new Harmony("net.Cyro.Trickle");
+        Harmony harmony = new Harmony("net.Cyro.FourierForge");
         harmony.PatchAll();
         Config.OnThisConfigurationChanged += c => {
             if (!Config!.GetValue(Enabled))
@@ -28,7 +28,7 @@ public partial class FourierForge : NeosMod
             foreach (var stream in streamsDict.Values)
             {
                 var props = new StreamProperties(
-                    (ValueEncoding)Config!.GetValue(ValueEncoding),
+                    ValueEncoding.Quantized,
                     Config!.GetValue(InterpolationOffset),
                     Config!.GetValue(FullFrameBits),
                     Config!.GetValue(UpdatePeriod),
@@ -54,7 +54,7 @@ public partial class FourierForge : NeosMod
             int binSize = (int)Config!.GetValue(FftBinSize);
             int sliceTo = Config!.GetValue(TruncateTo);
             __instance.RunSynchronously(() => {
-                __instance.CreateFFTStream<float4>(binSize, sliceTo, StereoSample.CHANNEL_COUNT);
+                __instance.CreateFFTStream<float4>(binSize, MathX.Clamp(sliceTo, 1, Math.Min(2048, binSize)), StereoSample.CHANNEL_COUNT);
             });
         }
 
