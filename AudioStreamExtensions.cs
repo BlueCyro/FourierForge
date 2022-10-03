@@ -24,10 +24,13 @@ public static class AudioStreamExtensions
         StreamFFTBase.StreamSamples.Add(audioStream, fftStream);
         
         Slot streamSlot = audioStream.Slot.AddSlot("Stream Data (<color=red>This is very big, you probably don't wanna open this.</color>)");
-        streamSlot.CreateVariable<int>("StreamFFTWindowSize", fftBinSize);
-        streamSlot.CreateVariable<int>("StreamFFTTruncationFactor", fftStream.NumSamplesSnipped);
-        streamSlot.CreateVariable<string>("StreamType", typeof(T).Name);
-        streamSlot.CreateVariable<string>("StreamModVersion", FourierForge.VersionString);
+        Slot extraVariables = audioStream.Slot.AddSlot("Extra Variables");
+
+        extraVariables.CreateVariable<int>("StreamFFTWindowSize", fftBinSize);
+        extraVariables.CreateVariable<int>("StreamFFTTruncationFactor", fftStream.NumSamplesSnipped);
+        extraVariables.CreateVariable<string>("StreamType", typeof(T).Name);
+        extraVariables.CreateVariable<string>("StreamModVersion", FourierForge.VersionString);
+        
         fftStream.ExplodeStreams(streamSlot);
         return fftStream;
     }
