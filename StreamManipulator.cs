@@ -80,7 +80,7 @@ public static class StreamManipulator<T>
                 stream.SetUpdatePeriod(FourierForge.Config!.GetValue(FourierForge.UpdatePeriod), 0);
                 ((Sync<float>)stream.GetSyncMember("InterpolationOffset")).Value = FourierForge.Config!.GetValue(FourierForge.InterpolationOffset);
                 stream.Encoding = ValueEncoding.Quantized;
-                stream.FullFrameBits = FourierForge.Config!.GetValue(FourierForge.FullFrameBits);
+                stream.FullFrameBits = (byte)MathX.Clamp(FourierForge.Config!.GetValue(FourierForge.FullFrameBits), 6, 32);
                 stream.FullFrameMin = (T)(object)0f;
                 stream.FullFrameMax = (T)(object)1f;
             });
@@ -100,7 +100,7 @@ public static class StreamManipulator<T>
                 stream.SetUpdatePeriod(FourierForge.Config!.GetValue(FourierForge.UpdatePeriod), 0);
                 ((Sync<float>)stream.GetSyncMember("InterpolationOffset")).Value = FourierForge.Config!.GetValue(FourierForge.InterpolationOffset);
                 stream.Encoding = ValueEncoding.Quantized;
-                stream.FullFrameBits = FourierForge.Config!.GetValue(FourierForge.FullFrameBits);
+                stream.FullFrameBits = (byte)MathX.Clamp(FourierForge.Config!.GetValue(FourierForge.FullFrameBits), 6, 32);
                 stream.FullFrameMin = (T)(object)new float4(0f, 0f, 0f, 0f);
                 stream.FullFrameMax = (T)(object)new float4(1f, 1f, 1f, 1f);
             });

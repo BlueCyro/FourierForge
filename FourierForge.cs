@@ -31,7 +31,7 @@ public partial class FourierForge : NeosMod
                 var props = new StreamProperties(
                     ValueEncoding.Quantized,
                     Config!.GetValue(InterpolationOffset),
-                    Config!.GetValue(FullFrameBits),
+                    (byte)MathX.Clamp(Config!.GetValue(FullFrameBits), 6, 32),
                     Config!.GetValue(UpdatePeriod),
                     0,
                     Config!.GetValue(WindowFunction),
