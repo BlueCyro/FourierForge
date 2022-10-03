@@ -27,6 +27,7 @@ public static class AudioStreamExtensions
         streamSlot.CreateVariable<int>("StreamFFTWindowSize", fftBinSize);
         streamSlot.CreateVariable<int>("StreamFFTTruncationFactor", fftStream.NumSamplesSnipped);
         streamSlot.CreateVariable<string>("StreamType", typeof(T).Name);
+        streamSlot.CreateVariable<string>("StreamModVersion", FourierForge.VersionString);
         fftStream.ExplodeStreams(streamSlot);
         return fftStream;
     }
