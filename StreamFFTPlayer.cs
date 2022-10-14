@@ -9,10 +9,10 @@ public class StreamFFTPlayer<T> : StreamFFTBase, IStreamFFTPlayer
     public ValueStream<float>[] BandMonitors{ get; private set; }
     public readonly UserAudioStream<StereoSample> AudioStream;
     private List<int>[] _bandSamples;
-    public StreamFFTPlayer(UserAudioStream<StereoSample> audioStream, int binSize, int snipTo, int channels = 1) : base(binSize, snipTo, channels)
+    public StreamFFTPlayer(UserAudioStream<StereoSample> audioStream, int binSize, int snipTo, int channels, StreamProperties streamProperties) : base(binSize, snipTo, channels)
     {
         AudioStream = audioStream;
-        FFTVals = StreamManipulator<T>.SetupStreams(audioStream, snipTo);
+        FFTVals = StreamManipulator<T>.SetupStreams(audioStream, snipTo, streamProperties);
         _bandSamples = new List<int>[7];
         BandMonitors = setupBandMonitors();
     }
@@ -66,15 +66,6 @@ public class StreamFFTPlayer<T> : StreamFFTBase, IStreamFFTPlayer
     {
         for (int i = 0; i < 7; i++)
         {
-            // convert each sample to decibels
-            /*
-            float avg = 0;
-            for (int j = 0; j < _bandSamples[i].Count; j++)
-            {
-                avg += (float)(20 * Math.Log10(Math.Abs(SampleBuffer[_bandSamples[i][j]])));
-            }
-            avg /= _bandSamples[i].Count;
-            */
             float avg = (float)_bandSamples[i].Max(j => SampleBuffer[j]);
             BandMonitors[i].Value = avg;
             BandMonitors[i].ForceUpdate();
@@ -89,13 +80,13 @@ public class StreamFFTPlayer<T> : StreamFFTBase, IStreamFFTPlayer
         }
         StreamManipulator<T>.Apply(this, forceUpdate);
     }
-    public void ExplodeStreams(Slot target)
+    public void ExplodeStreams(Slot target, Slot? variableSlot = null)
     {
         for (int i = 0; i < this.FFTStreams.Count(); i++)
         {
             target.CreateReferenceVariable($"FFTVal{i}", this.FFTStreams[i]);
         }
-        StreamManipulator<T>.ExplodeStreams(AudioStream, target);
+        StreamManipulator<T>.ExplodeStreams(AudioStream, target, variableSlot);
     }
     public void ModifyStreamProperties(StreamProperties props)
     {

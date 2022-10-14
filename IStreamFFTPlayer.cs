@@ -12,5 +12,5 @@ public interface IStreamFFTPlayer
     float[] GetFFTData<S>(Span<S> samples) where S : unmanaged, IAudioSample;
     void ApplyStreams(bool forceUpdate = false, bool onlyApplyBandMonitors = false);
     public void ModifyStreamProperties(StreamProperties props);
-    public void ExplodeStreams(Slot target);
+    public void ExplodeStreams(Slot target, Slot? variableSlot = null);
 }

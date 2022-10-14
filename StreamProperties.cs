@@ -12,6 +12,15 @@ public struct StreamProperties
     public uint UpdatePhase;
     public WindowFunctionEnum Window;
     public OpusApplicationType AppType;
+    public static StreamProperties Default = new StreamProperties(
+        ValueEncoding.Quantized,
+        0.15f,
+        10,
+        0,
+        0,
+        WindowFunctionEnum.Hann,
+        OpusApplicationType.RestrictedLowDelay
+    );
 
     public StreamProperties(ValueEncoding encoding, float interpOffset, byte fullFrameBits, uint updatePeriod, uint updatePhase, WindowFunctionEnum window, OpusApplicationType appType)
     {

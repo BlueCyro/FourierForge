@@ -13,7 +13,8 @@ public partial class FourierForge : NeosMod
     public override string Author => "Cyro";
     public override string Name => "FourierForge";
     public override string Version => VersionString;
-    public static readonly string VersionString = "1.0.3";
+    public static readonly string VersionString = "1.0.4";
+    public static readonly int VersionInt = 104;
     public override void OnEngineInit()
     {
         Config = GetConfiguration();
@@ -54,8 +55,17 @@ public partial class FourierForge : NeosMod
             
             int binSize = (int)Config!.GetValue(FftBinSize);
             int sliceTo = Config!.GetValue(TruncateTo);
+            StreamProperties streamProps = new StreamProperties(
+                ValueEncoding.Quantized,
+                Config!.GetValue(InterpolationOffset),
+                (byte)MathX.Clamp(Config!.GetValue(FullFrameBits), 6, 32),
+                Config!.GetValue(UpdatePeriod),
+                0,
+                Config!.GetValue(WindowFunction),
+                Config!.GetValue(AudioStreamAppType)
+            );
             __instance.RunSynchronously(() => {
-                __instance.CreateFFTStream<float4>(binSize, MathX.Clamp(sliceTo, 1, Math.Min(2048, binSize)), StereoSample.CHANNEL_COUNT);
+                __instance.CreateFFTStream<float4>(binSize, MathX.Clamp(sliceTo, 1, Math.Min(2048, binSize)), StereoSample.CHANNEL_COUNT, streamProps);
             });
         }
 

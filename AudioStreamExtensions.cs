@@ -11,7 +11,7 @@ public static class AudioStreamExtensions
     {
         return StreamFFTBase.StreamSamples.TryGetValue(audioStream, out streamFFT);
     }
-    public static IStreamFFTPlayer CreateFFTStream<T>(this UserAudioStream<StereoSample> audioStream, int fftBinSize, int sliceTo, int channels = 1)
+    public static IStreamFFTPlayer CreateFFTStream<T>(this UserAudioStream<StereoSample> audioStream, int fftBinSize, int sliceTo, int channels = 1, StreamProperties streamProperties = default(StreamProperties))
     {
         User user = audioStream.LocalUser;
         void removeSelf(IChangeable c)
@@ -20,18 +20,47 @@ public static class AudioStreamExtensions
             audioStream.Destroyed -= removeSelf;
         };
         audioStream.Destroyed += removeSelf;
-        IStreamFFTPlayer fftStream = new StreamFFTPlayer<T>(audioStream, fftBinSize, sliceTo, channels);
+        IStreamFFTPlayer fftStream = new StreamFFTPlayer<T>(audioStream, fftBinSize, sliceTo, channels, streamProperties);
         StreamFFTBase.StreamSamples.Add(audioStream, fftStream);
         
-        Slot streamSlot = audioStream.Slot.AddSlot("Stream Data (<color=red>This is very big, you probably don't wanna open this.</color>)");
         Slot extraVariables = audioStream.Slot.AddSlot("<color=#FFAAAA>Extra Variables</color>");
 
         extraVariables.CreateVariable<int>("StreamFFTWindowSize", fftBinSize);
         extraVariables.CreateVariable<int>("StreamFFTTruncationFactor", fftStream.NumSamplesSnipped);
         extraVariables.CreateVariable<string>("StreamType", typeof(T).Name);
         extraVariables.CreateVariable<string>("StreamModVersion", FourierForge.VersionString);
+        extraVariables.CreateVariable<int>("StreamModVersionInt", FourierForge.VersionInt);
+        
+        Slot variables = audioStream.Slot.AddSlot("Dynamic Variables (<color=orange>This is mildly large, open at your own expense</color>)");
+        Slot streamSlot = audioStream.Slot.AddSlot("Stream Data (<color=red>This will hurt a lot to open, will also jump up to the nearest active slot if in an inactive hierarchy</color>)");
+        streamSlot.PersistentSelf = false;
+        streamSlot.DestroyWhenUserLeaves(audioStream.LocalUser);
+        audioStream.Slot.DestroyWhenDestroyed(streamSlot);
+        void activeChanged(Slot s)
+        {
+            if (streamSlot != null && !streamSlot.IsDestroyed)
+            {
+                if (audioStream.Slot.IsActive)
+                {
+                    streamSlot.SetParent(audioStream.Slot);
+                }
+                else
+                {
+                    Slot nearestActive = streamSlot.FindParent(s => s.IsActive);
+                    if (nearestActive != null)
+                    {
+                        streamSlot.SetParent(nearestActive);
+                    }
+                }
+            }
+            else
+            {
+                audioStream.Slot.ActiveChanged -= activeChanged;
+            }
+        }
+        audioStream.Slot.ActiveChanged += activeChanged;
 
-        fftStream.ExplodeStreams(streamSlot);
+        fftStream.ExplodeStreams(streamSlot, variables);
         return fftStream;
     }
 

@@ -27,8 +27,6 @@ public class ShiftQueue<T> : Queue<T>
             this.Enqueue(val);
         }
     }
-    public static implicit operator T[] (ShiftQueue<T> q) => q.ToArray();
-    public static implicit operator Span<T> (ShiftQueue<T> q) => q.ToArray();
 }
 
 public static class QueueExtensions
