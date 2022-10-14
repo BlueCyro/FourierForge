@@ -14,12 +14,12 @@ public class StreamFFTPlayer<T> : StreamFFTBase, IStreamFFTPlayer
         AudioStream = audioStream;
         FFTVals = StreamManipulator<T>.SetupStreams(audioStream, snipTo, streamProperties);
         _bandSamples = new List<int>[7];
-        BandMonitors = setupBandMonitors();
+        BandMonitors = new ValueStream<float>[7];
     }
-    private ValueStream<float>[] setupBandMonitors()
+    public void SetupBandMonitors(Slot? target = null, Slot? driverSlot = null)
     {
-        var bandStreams = new ValueStream<float>[7];
-        Slot BandMonitorSlot = AudioStream.Slot.AddSlot("<color=purple>Band Monitors</color>");
+        Slot bandMonitorSlot = target ?? AudioStream.Slot.AddSlot("<color=purple>Band Monitors</color>");
+        Slot drivers = driverSlot ?? bandMonitorSlot;
         for (int i = 0; i < 7; i++)
         {
             var stream = AudioStream.User.GetStreamOrAdd<ValueStream<float>>($"FFTStreamBandMonitor.{AudioStream.ReferenceID}.{i}", stream => {
@@ -28,9 +28,9 @@ public class StreamFFTPlayer<T> : StreamFFTBase, IStreamFFTPlayer
                 ((Sync<float>)stream.GetSyncMember("InterpolationOffset")).Value = FourierForge.Config!.GetValue(FourierForge.InterpolationOffset);
                 stream.Encoding = ValueEncoding.Full;
             });
-            bandStreams[i] = stream;
-            var monitorVar = BandMonitorSlot.AttachComponent<DynamicValueVariable<float>>();
-            var driver = BandMonitorSlot.AttachComponent<ValueDriver<float>>();
+            BandMonitors[i] = stream;
+            var monitorVar = bandMonitorSlot.AttachComponent<DynamicValueVariable<float>>();
+            var driver = drivers.AttachComponent<ValueDriver<float>>();
 
             monitorVar.VariableName.Value = $"FFTBand{i}";
             driver.ValueSource.Target = stream;
@@ -60,7 +60,6 @@ public class StreamFFTPlayer<T> : StreamFFTBase, IStreamFFTPlayer
             }
             _bandSamples[rangeIndex].Add(i);
         }
-        return bandStreams;
     }
     private void applyBandMonitors()
     {

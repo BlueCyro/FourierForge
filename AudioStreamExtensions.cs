@@ -31,25 +31,27 @@ public static class AudioStreamExtensions
         extraVariables.CreateVariable<string>("StreamModVersion", FourierForge.VersionString);
         extraVariables.CreateVariable<int>("StreamModVersionInt", FourierForge.VersionInt);
         
+        Slot bandMonitors = audioStream.Slot.AddSlot("<color=purple>Band Monitors</color>");
         Slot variables = audioStream.Slot.AddSlot("Dynamic Variables (<color=orange>This is mildly large, open at your own expense</color>)");
-        Slot streamSlot = audioStream.Slot.AddSlot("Stream Data (<color=red>This will hurt a lot to open, will also jump up to the nearest active slot if in an inactive hierarchy</color>)");
-        streamSlot.PersistentSelf = false;
-        streamSlot.DestroyWhenUserLeaves(audioStream.LocalUser);
-        audioStream.Slot.DestroyWhenDestroyed(streamSlot);
+        Slot drivers = audioStream.Slot.AddSlot("Stream Data (<color=red>This will hurt a lot to open, will also jump up to the nearest active slot if in an inactive hierarchy</color>)");
+
+        drivers.PersistentSelf = false;
+        drivers.DestroyWhenUserLeaves(audioStream.LocalUser);
+        audioStream.Slot.DestroyWhenDestroyed(drivers);
         void activeChanged(Slot s)
         {
-            if (streamSlot != null && !streamSlot.IsDestroyed)
+            if (drivers != null && !drivers.IsDestroyed)
             {
                 if (audioStream.Slot.IsActive)
                 {
-                    streamSlot.SetParent(audioStream.Slot);
+                    drivers.SetParent(audioStream.Slot);
                 }
                 else
                 {
-                    Slot nearestActive = streamSlot.FindParent(s => s.IsActive);
+                    Slot nearestActive = drivers.FindParent(s => s.IsActive);
                     if (nearestActive != null)
                     {
-                        streamSlot.SetParent(nearestActive);
+                        drivers.SetParent(nearestActive);
                     }
                 }
             }
@@ -60,7 +62,8 @@ public static class AudioStreamExtensions
         }
         audioStream.Slot.ActiveChanged += activeChanged;
 
-        fftStream.ExplodeStreams(streamSlot, variables);
+        fftStream.ExplodeStreams(drivers, variables);
+        fftStream.SetupBandMonitors(bandMonitors, drivers);
         return fftStream;
     }
 

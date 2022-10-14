@@ -13,4 +13,5 @@ public interface IStreamFFTPlayer
     void ApplyStreams(bool forceUpdate = false, bool onlyApplyBandMonitors = false);
     public void ModifyStreamProperties(StreamProperties props);
     public void ExplodeStreams(Slot target, Slot? variableSlot = null);
+    public void SetupBandMonitors(Slot? target = null, Slot? driverSlot = null);
 }
