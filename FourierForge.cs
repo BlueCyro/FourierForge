@@ -13,8 +13,8 @@ public partial class FourierForge : NeosMod
     public override string Author => "Cyro";
     public override string Name => "FourierForge";
     public override string Version => VersionString;
-    public static readonly string VersionString = "1.0.5";
-    public static readonly int VersionInt = 105;
+    public static readonly string VersionString = "1.0.6";
+    public static readonly int VersionInt = 106;
     public override void OnEngineInit()
     {
         Config = GetConfiguration();
@@ -50,21 +50,21 @@ public partial class FourierForge : NeosMod
         [HarmonyPostfix]
         public static void OnAwake_Postfix(UserAudioStream<StereoSample> __instance)
         {
-            if (__instance.ReferenceID.User != __instance.LocalUser.AllocationID || !Config!.GetValue(Enabled))
-                return;
-            
-            int binSize = (int)Config!.GetValue(FftBinSize);
-            int sliceTo = Config!.GetValue(TruncateTo);
-            StreamProperties streamProps = new StreamProperties(
-                ValueEncoding.Quantized,
-                Config!.GetValue(InterpolationOffset),
-                (byte)MathX.Clamp(Config!.GetValue(FullFrameBits), 6, 32),
-                Config!.GetValue(UpdatePeriod),
-                0,
-                Config!.GetValue(WindowFunction),
-                Config!.GetValue(AudioStreamAppType)
-            );
             __instance.RunSynchronously(() => {
+                if (__instance.ReferenceID.User != __instance.LocalUser.AllocationID || !Config!.GetValue(Enabled))
+                    return;
+                
+                int binSize = (int)Config!.GetValue(FftBinSize);
+                int sliceTo = Config!.GetValue(TruncateTo);
+                StreamProperties streamProps = new StreamProperties(
+                    ValueEncoding.Quantized,
+                    Config!.GetValue(InterpolationOffset),
+                    (byte)MathX.Clamp(Config!.GetValue(FullFrameBits), 6, 32),
+                    Config!.GetValue(UpdatePeriod),
+                    0,
+                    Config!.GetValue(WindowFunction),
+                    Config!.GetValue(AudioStreamAppType)
+                );
                 __instance.CreateFFTStream<float4>(binSize, MathX.Clamp(sliceTo, 1, Math.Min(2048, binSize)), StereoSample.CHANNEL_COUNT, streamProps);
             });
         }

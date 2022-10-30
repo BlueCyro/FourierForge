@@ -20,6 +20,7 @@ public class StreamFFTPlayer<T> : StreamFFTBase, IStreamFFTPlayer
     {
         Slot bandMonitorSlot = target ?? AudioStream.Slot.AddSlot("<color=purple>Band Monitors</color>");
         Slot drivers = driverSlot ?? bandMonitorSlot;
+
         for (int i = 0; i < 7; i++)
         {
             var stream = AudioStream.User.GetStreamOrAdd<ValueStream<float>>($"FFTStreamBandMonitor.{AudioStream.ReferenceID}.{i}", stream => {
