@@ -38,7 +38,7 @@ The following is a more verbose description of each setting in the order they ap
 ### In-game usage
 
 
-By default each audio stream does not have a variable space, but contains dynamic variables. Once you've placed the stream in a dynamic variable space you can then access the FFT values by using dynamic references (e.g. DynamicReferenceVariable or DynamicReferenceVariableDriver) with the type ``IField`1[System.Single]`` and the variable naming scheme of 'StreamFFTValue(number)' (ex: 'StreamFFTValue27')
+By default each audio stream does not have a variable space, but contains dynamic variables. Once you've placed the stream in a dynamic variable space you can then access the FFT values by using dynamic references (e.g. DynamicReferenceVariable or DynamicReferenceVariableDriver) with the type ``IField`1[System.Single]`` and the variable naming scheme of 'FFTStreamValue(number)' (ex: 'FFTStreamValue27')
 
 The reason these are IFields and not raw values is because syncing so many values through a dynamic variable space is very taxing, and this helps alleviate a lot of the overhead. If you're looking to drive a field based on one of these values. You can use a DynamicReferenceVariableDriver and point it at the source of a ValueCopy to drive a value with it.
 
