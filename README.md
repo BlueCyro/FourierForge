@@ -1,4 +1,6 @@
-# Fourier Forge
+# Fourier Forge (Deprecated)
+
+**THIS PROJECT IS DEPRECATED** and is superseded by [Resonance](https://github.com/RileyGuy/Resonance) (Not compatible with NeosVR)
 
 ![ezgif-3-4db0f4f6ef](https://user-images.githubusercontent.com/9770110/193400034-b6215861-1775-4298-9100-cf3e58cafe97.gif)
 
